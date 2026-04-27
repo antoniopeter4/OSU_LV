@@ -39,7 +39,8 @@ def generate_data(n_samples, flagc):
     return X
 
 # generiranje podatkovnih primjera
-X = generate_data(500, 3)
+flag=4
+X = generate_data(500, flag)
 
 # prikazi primjere u obliku dijagrama rasprsenja
 plt.figure()
@@ -49,14 +50,17 @@ plt.ylabel('$x_2$')
 plt.title('podatkovni primjeri')
 plt.show()
 
+#2)
 
-km=KMeans(n_clusters=4,init="random",n_init=5,random_state=0)
+optimal_k={1:3,2:3,3:4,4:2,5:2}
+k=optimal_k[flag]
+
+km=KMeans(n_clusters=k,random_state=0)
 km.fit(X)
 labels=km.predict(X)
-centers=km.cluster_centers_
-
 plt.figure()
-plt.scatter(X[:,0],X[:,1],cmap="plasma",c=labels)
-plt.scatter(centers[:,0],centers[:,1],c="black",alpha=1,marker="X")
+plt.scatter(X[:,0],X[:,1],c=labels,cmap="viridis")
+plt.scatter(km.cluster_centers_[:,0],km.cluster_centers_[:,1],c='red', marker='x', s=100)
+plt.title(f'K-means (K={k})')
 plt.show()
 
